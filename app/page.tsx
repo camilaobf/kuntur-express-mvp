@@ -5,6 +5,65 @@ import { Badge } from "@/components/ui/badge";
 export default function Home() {
   return (
     <main className="min-h-screen bg-kuntur-cream">
+      {/* Navbar */}
+      <nav className="sticky top-0 z-50 bg-white/80 backdrop-blur border-b border-kuntur-gray/20">
+        <div className="max-w-7xl mx-auto px-4 py-3">
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <div className="flex items-center gap-2">
+              <span className="text-2xl">🦅</span>
+              <span className="text-xl font-bold text-kuntur-dark">Kuntur Express</span>
+            </div>
+
+            {/* Links */}
+            <div className="hidden md:flex items-center gap-8">
+              <a
+                href="#roles"
+                className="text-kuntur-gray hover:text-kuntur-blue transition-colors font-medium"
+              >
+                Roles
+              </a>
+              <a
+                href="#hosting"
+                className="text-kuntur-gray hover:text-kuntur-blue transition-colors font-medium"
+              >
+                Hosting
+              </a>
+              <a
+                href="mailto:hola@kunturexpress.com"
+                className="text-kuntur-gray hover:text-kuntur-blue transition-colors font-medium"
+              >
+                Contacto
+              </a>
+            </div>
+
+            {/* CTA Button */}
+            <Button
+              size="sm"
+              className="bg-kuntur-blue hover:bg-kuntur-blue/90 text-white px-6"
+              asChild
+            >
+              <a href="/configurar">Configurar ahora</a>
+            </Button>
+          </div>
+
+          {/* Mobile menu button - placeholder for future mobile menu */}
+          <div className="md:hidden flex items-center justify-between mt-2">
+            <div className="flex items-center gap-2">
+              <span className="text-xl">🦅</span>
+              <span className="text-lg font-bold text-kuntur-dark">Kuntur Express</span>
+            </div>
+            <Button
+              size="sm"
+              className="bg-kuntur-blue hover:bg-kuntur-blue/90 text-white px-4 text-sm"
+              asChild
+            >
+              <a href="/configurar">Configurar</a>
+            </Button>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
       <div className="px-4 py-20 md:py-32">
         <div className="max-w-4xl mx-auto text-center">
@@ -28,7 +87,7 @@ export default function Home() {
       </div>
 
       {/* Roles Showcase Section */}
-      <div className="bg-white py-20">
+      <div id="roles" className="bg-white py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-kuntur-dark mb-4">
@@ -229,7 +288,7 @@ export default function Home() {
       </div>
 
       {/* Hosting Plans Section */}
-      <div className="bg-kuntur-cream py-20">
+      <div id="hosting" className="bg-kuntur-cream py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-3xl md:text-4xl font-bold text-kuntur-dark mb-4">
