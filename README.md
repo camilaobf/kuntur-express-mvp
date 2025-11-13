@@ -1,109 +1,402 @@
-<a href="https://demo-nextjs-with-supabase.vercel.app/">
-  <img alt="Next.js and Supabase Starter Kit - the fastest way to build apps with Next.js and Supabase" src="https://demo-nextjs-with-supabase.vercel.app/opengraph-image.png">
-  <h1 align="center">Next.js and Supabase Starter Kit</h1>
-</a>
+# 🦅 Kuntur Express - Roles Kuntur
 
-<p align="center">
- The fastest way to build apps with Next.js and Supabase
-</p>
+**Plataforma de configuración y venta de Roles Kuntur** - Agentes de IA especializados para negocios en Bolivia.
 
-<p align="center">
-  <a href="#features"><strong>Features</strong></a> ·
-  <a href="#demo"><strong>Demo</strong></a> ·
-  <a href="#deploy-to-vercel"><strong>Deploy to Vercel</strong></a> ·
-  <a href="#clone-and-run-locally"><strong>Clone and run locally</strong></a> ·
-  <a href="#feedback-and-issues"><strong>Feedback and issues</strong></a>
-  <a href="#more-supabase-examples"><strong>More Examples</strong></a>
-</p>
-<br/>
+---
 
-## Features
+## 🎯 Descripción del Proyecto
 
-- Works across the entire [Next.js](https://nextjs.org) stack
-  - App Router
-  - Pages Router
-  - Middleware
-  - Client
-  - Server
-  - It just works!
-- supabase-ssr. A package to configure Supabase Auth to use cookies
-- Password-based authentication block installed via the [Supabase UI Library](https://supabase.com/ui/docs/nextjs/password-based-auth)
-- Styling with [Tailwind CSS](https://tailwindcss.com)
-- Components with [shadcn/ui](https://ui.shadcn.com/)
-- Optional deployment with [Supabase Vercel Integration and Vercel deploy](#deploy-your-own)
-  - Environment variables automatically assigned to Vercel project
+Kuntur Express es un sistema completo para la venta de **Roles Kuntur** (agentes de IA especializados) que incluye:
 
-## Demo
+- 🎯 **Configurador interactivo** de productos con 3 pasos
+- 💰 **Sistema de pricing dinámico** con descuentos progresivos
+- 💱 **Cotización USDT/BOB** en tiempo real (Binance P2P)
+- 📱 **Checkout con 2 métodos** de pago (QR banco + QR USDT)
+- 📎 **Validación automática** de comprobantes con IA
+- 📧 **Emails transaccionales** (Resend)
+- 📅 **Integración Google Calendar** para asesorías
 
-You can view a fully working demo at [demo-nextjs-with-supabase.vercel.app](https://demo-nextjs-with-supabase.vercel.app/).
+### **Roles Kuntur Disponibles:**
 
-## Deploy to Vercel
+| Rol | Precio USDT | Ideal para |
+|-----|-------------|-------------|
+| **Kuntur Sales** | $120 | Vendedores, cerradores de ventas |
+| **Kuntur Support** | $120 | Soporte técnico, atención al cliente |
+| **Kuntur Marketing** | $120 | Marketing digital, redes sociales |
+| **Kuntur Content** | $120 | Creación de contenido, copywriting |
+| **Kuntur Analytics** | $120 | Análisis de datos, BI |
+| **Kuntur Operations** | $120 | Operaciones, logística |
+| **Kuntur Finance** | $120 | Contabilidad, finanzas |
 
-Vercel deployment will guide you through creating a Supabase account and project.
+### **Planes de Hosting Express:**
 
-After installation of the Supabase integration, all relevant environment variables will be assigned to the project so the deployment is fully functioning.
+| Plan | Mensual (USDT) | Anual (USDT) | Descuento | Capacidad |
+|------|----------------|--------------|-----------|-----------|
+| **Starter** | 20 | 192 | 20% | 1 rol, 1.2k conversaciones |
+| **Crecimiento** | 60 | 540 | 25% | 2-3 roles, 3k conversaciones |
+| **Premium** | 150 | 1,260 | 30% | 4-6 roles, 10k conversaciones |
 
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&project-name=nextjs-with-supabase&repository-name=nextjs-with-supabase&demo-title=nextjs-with-supabase&demo-description=This+starter+configures+Supabase+Auth+to+use+cookies%2C+making+the+user%27s+session+available+throughout+the+entire+Next.js+app+-+Client+Components%2C+Server+Components%2C+Route+Handlers%2C+Server+Actions+and+Middleware.&demo-url=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2F&external-id=https%3A%2F%2Fgithub.com%2Fvercel%2Fnext.js%2Ftree%2Fcanary%2Fexamples%2Fwith-supabase&demo-image=https%3A%2F%2Fdemo-nextjs-with-supabase.vercel.app%2Fopengraph-image.png)
+---
 
-The above will also clone the Starter kit to your GitHub, you can clone that locally and develop locally.
+## 🛠️ Stack Tecnológico
 
-If you wish to just develop locally and not deploy to Vercel, [follow the steps below](#clone-and-run-locally).
+```
+Frontend:  Next.js 14 (App Router) + TypeScript + Tailwind + shadcn/ui
+Backend:   Next.js API Routes + Supabase (PostgreSQL)
+Emails:    Resend (bot@kunturexpress.com)
+Pagos:     QR estáticos (banco BOB + USDT TRC20)
+Cache:     Vercel Edge (30 min)
+Deploy:    Vercel FREE tier
+```
 
-## Clone and run locally
+### **Dependencias Principales:**
 
-1. You'll first need a Supabase project which can be made [via the Supabase dashboard](https://database.new)
+```json
+{
+  "@supabase/supabase-js": "^2.39.0",
+  "@supabase/auth-helpers-nextjs": "^0.8.7",
+  "resend": "^3.0.0",
+  "zod": "^3.22.4",
+  "react-hook-form": "^7.49.0",
+  "@hookform/resolvers": "^3.3.3",
+  "date-fns": "^3.0.0",
+  "clsx": "^2.0.0",
+  "tailwind-merge": "^2.2.0",
+  "sonner": "^1.3.1",
+  "lucide-react": "^0.300.0"
+}
+```
 
-2. Create a Next.js app using the Supabase Starter template npx command
+---
 
+## 📋 Requisitos Previos
+
+- **Node.js 18+** instalado
+- **Cuenta Supabase** (gratuita)
+- **Cuenta Resend** (para emails)
+- **Git** configurado
+
+---
+
+## 🚀 Instalación y Configuración
+
+### 1. **Clonar el Repositorio**
+
+```bash
+git clone https://github.com/tu-usuario/kuntur-express-mvp.git
+cd kuntur-express-mvp
+```
+
+### 2. **Instalar Dependencias**
+
+```bash
+npm install
+# o
+yarn install
+# o
+pnpm install
+```
+
+### 3. **Configurar Variables de Entorno**
+
+Copia el archivo de ejemplo:
+
+```bash
+cp .env.example .env.local
+```
+
+Edita `.env.local` con tus datos:
+
+```env
+# Supabase Database & Storage
+NEXT_PUBLIC_SUPABASE_URL=https://tu-project-id.supabase.co
+NEXT_PUBLIC_SUPABASE_ANON_KEY=tu-anon-key-aqui
+SUPABASE_SERVICE_ROLE_KEY=tu-service-role-key-aqui
+
+# Email Service (Resend)
+RESEND_API_KEY=re_tu_api_key_aqui
+RESEND_FROM_EMAIL=bot@kunturexpress.com
+
+# URLs de la Aplicación
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_API_URL=http://localhost:3000/api
+
+# Monitoreo y Analytics
+NEXT_PUBLIC_TIKTOK_PIXEL_ID=D4ATLEJC77U5N735V5I0
+```
+
+### 4. **Configurar Supabase Database**
+
+1. Ve a tu [Dashboard Supabase](https://supabase.com/dashboard)
+2. Crea un nuevo proyecto o usa uno existente
+3. Copia el schema desde `supabase-schema.sql`
+4. Ejecuta el SQL en el editor de Supabase
+5. Crea el bucket de Storage `comprobantes`
+6. Configura las políticas de acceso
+
+### 5. **Configurar Resend**
+
+1. Crea cuenta en [Resend](https://resend.com)
+2. Genera un API key
+3. Verifica tu dominio de email
+4. Configura `RESEND_API_KEY` en `.env.local`
+
+### 6. **Ejecutar la Aplicación**
+
+```bash
+npm run dev
+```
+
+Abre [http://localhost:3000](http://localhost:3000) en tu navegador.
+
+---
+
+## 🗄️ Base de Datos (Supabase)
+
+### **Schema Principal:**
+
+```sql
+-- Tablas principales
+roles_kuntur              -- Catálogo de roles disponibles
+hosting_plans            -- Planes de hosting
+orders                   -- Órdenes de compra
+order_interactions       -- Historial de interacciones
+daily_discounts          -- Descuentos diarios
+exchange_rates           -- Tasas de cambio USDT/BOB
+
+-- Storage Bucket
+comprobantes/            -- Comprobantes de pago (files)
+```
+
+### **Configuración de Storage:**
+
+1. Crear bucket: `comprobantes`
+2. Política pública: `SELECT` para todos
+3. Política insert: `INSERT` para usuarios autenticados
+
+---
+
+## 🔧 Scripts Disponibles
+
+```bash
+npm run dev          # Inicia desarrollo en http://localhost:3000
+npm run build        # Build para producción
+npm run start        # Inicia producción (después de npm run build)
+npm run lint         # Revisa linting con ESLint
+npm run type-check   # Revisa tipos con TypeScript
+```
+
+---
+
+## 📁 Estructura del Proyecto
+
+```
+kuntur-express-mvp/
+├── app/                          # Next.js App Router
+│   ├── api/                      # API Routes
+│   │   ├── orders/               # Endpoints de órdenes
+│   │   ├── rate/                 # Cotización USDT/BOB
+│   │   └── email/                # Envío de emails
+│   ├── configurar/               # Configurador 3 pasos
+│   ├── orden/[id]/               # Checkout individual
+│   ├── layout.tsx                # Layout principal
+│   └── page.tsx                  # Landing page
+├── components/                   # Componentes React
+│   ├── ui/                       # shadcn/ui base
+│   ├── landing/                  # Componentes landing
+│   ├── configurator/             # Wizard configurador
+│   └── checkout/                 # Componentes checkout
+├── lib/                          # Utilidades
+│   ├── supabase.ts               # Cliente Supabase
+│   ├── pricing.ts                # Cálculos de precios
+│   ├── validations.ts            # Zod schemas
+│   └── types/                    # Tipos TypeScript
+├── public/                       # Assets estáticos
+│   ├── logo-*.png               # Logos marca
+│   ├── qr-*.png                 # QR códigos pago
+│   └── comprobantes/             # Upload temporal local
+├── .env.example                  # Variables ejemplo
+├── README.md                     # Este archivo
+├── package.json                  # Dependencias
+├── tailwind.config.ts           # Config Tailwind
+├── tsconfig.json                # Config TypeScript
+└── supabase-schema.sql          # Schema BD
+```
+
+---
+
+## 🧠 Lógica de Negocio
+
+### **Cálculo de Precios:**
+
+```typescript
+// Descuentos por cantidad de roles
+1 rol:    $120 c/u (0% descuento)
+2-3 roles: $110 c/u (~8% descuento)
+4-5 roles: $95 c/u (~20% descuento)
+6 roles:   $85 c/u (~30% descuento)
+
+// Descuento adicional hosting anual
+Hosting anual: 20-30% descuento según plan
+
+// Código HOY5: 5% adicional (mismo día)
+// Descuento máximo total: 40%
+```
+
+### **Compatibilidad Hosting-Roles:**
+
+- **1 rol:** Starter, Crecimiento, Premium
+- **2-3 roles:** Crecimiento, Premium (Starter deshabilitado)
+- **4+ roles:** Solo Premium (otros deshabilitados)
+
+### **Métodos de Pago:**
+
+1. **Transferencia Bancaria** (BOB)
+   - QR estático Banco
+   - Validación manual comprobante
+
+2. **USDT TRC20**
+   - QR estático wallet
+   - Validación automática con IA
+
+---
+
+## 📧 Configuración de Emails
+
+| Email | Uso |
+|-------|-----|
+| `hola@kunturexpress.com` | General, footer, contacto |
+| `ventas@kunturexpress.com` | Notificaciones internas |
+| `roles@kunturexpress.com` | Confirmaciones de roles |
+| `pagos@kunturexpress.com` | Dudas sobre pagos |
+| `bot@kunturexpress.com` | **Envío automático (Resend)** |
+
+---
+
+## 🚀 Deploy a Producción
+
+### **Vercel (Recomendado):**
+
+1. **Conectar GitHub:**
    ```bash
-   npx create-next-app --example with-supabase with-supabase-app
+   # Subir a GitHub
+   git add .
+   git commit -m "feat: MVP completo de Kuntur Express"
+   git push origin main
    ```
 
+2. **Configurar en Vercel:**
+   - Importa el repositorio desde GitHub
+   - Configura variables de entorno en Vercel
+   - Deploy automático en cada push
+
+3. **Dominio Personalizado:**
+   - Configura `kunturexpress.com` en Vercel
+   - Actualiza `NEXT_PUBLIC_APP_URL` en producción
+
+### **Variables de Entorno en Vercel:**
+
+```
+NEXT_PUBLIC_SUPABASE_URL=...
+NEXT_PUBLIC_SUPABASE_ANON_KEY=...
+SUPABASE_SERVICE_ROLE_KEY=...
+RESEND_API_KEY=...
+RESEND_FROM_EMAIL=bot@kunturexpress.com
+NEXT_PUBLIC_APP_URL=https://kunturexpress.com
+NEXT_PUBLIC_TIKTOK_PIXEL_ID=D4ATLEJC77U5N735V5I0
+```
+
+---
+
+## 📊 Monitoreo y Analytics
+
+### **TikTok Pixel:**
+
+Configurado automáticamente en `layout.tsx`:
+- Pixel ID: `D4ATLEJC77U5N735V5I0`
+- Eventos: PageView, StartCheckout, Purchase
+
+### **Próximas Integraciones:**
+
+- Google Analytics 4
+- Hotjar o Clarity
+- Console error tracking
+
+---
+
+## 🐛 Troubleshooting
+
+### **Errores Comunes:**
+
+1. **"Module not found: '@/lib/supabase'"**
    ```bash
-   yarn create next-app --example with-supabase with-supabase-app
+   npm install @supabase/supabase-js
    ```
 
+2. **"Module not found: 'zod'"**
    ```bash
-   pnpm create next-app --example with-supabase with-supabase-app
+   npm install zod
    ```
 
-3. Use `cd` to change into the app's directory
+3. **Error de conexión Supabase:**
+   - Verifica `.env.local`
+   - Revisa URL y API keys
+   - Confirma proyecto activo en Supabase
 
-   ```bash
-   cd with-supabase-app
-   ```
+4. **Upload de archivos falla:**
+   - Configura bucket `comprobantes` en Supabase Storage
+   - Verifica políticas de acceso
+   - Revisa `SUPABASE_SERVICE_ROLE_KEY`
 
-4. Rename `.env.example` to `.env.local` and update the following:
+### **Logs y Debug:**
 
-  ```env
-  NEXT_PUBLIC_SUPABASE_URL=[INSERT SUPABASE PROJECT URL]
-  NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY=[INSERT SUPABASE PROJECT API PUBLISHABLE OR ANON KEY]
-  ```
-  > [!NOTE]
-  > This example uses `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`, which refers to Supabase's new **publishable** key format.
-  > Both legacy **anon** keys and new **publishable** keys can be used with this variable name during the transition period. Supabase's dashboard may show `NEXT_PUBLIC_SUPABASE_ANON_KEY`; its value can be used in this example.
-  > See the [full announcement](https://github.com/orgs/supabase/discussions/29260) for more information.
+```bash
+# Ver logs de desarrollo
+npm run dev
 
-  Both `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY` can be found in [your Supabase project's API settings](https://supabase.com/dashboard/project/_?showConnect=true)
+# Revisión de tipos
+npm run type-check
 
-5. You can now run the Next.js local development server:
+# Linting
+npm run lint
+```
 
-   ```bash
-   npm run dev
-   ```
+---
 
-   The starter kit should now be running on [localhost:3000](http://localhost:3000/).
+## 🤝 Contribuir
 
-6. This template comes with the default shadcn/ui style initialized. If you instead want other ui.shadcn styles, delete `components.json` and [re-install shadcn/ui](https://ui.shadcn.com/docs/installation/next)
+1. Fork el proyecto
+2. Crear branch: `git checkout -b feature/nueva-feature`
+3. Commit: `git commit -m 'feat: agregar nueva feature'`
+4. Push: `git push origin feature/nueva-feature`
+5. Pull Request
 
-> Check out [the docs for Local Development](https://supabase.com/docs/guides/getting-started/local-development) to also run Supabase locally.
+---
 
-## Feedback and issues
+## 📞 Soporte y Contacto
 
-Please file feedback and issues over on the [Supabase GitHub org](https://github.com/supabase/supabase/issues/new/choose).
+- **WhatsApp:** +59164036038
+- **Email:** hola@kunturexpress.com
+- **GitHub Issues:** [Crear Issue](https://github.com/tu-usuario/kuntur-express-mvp/issues)
 
-## More Supabase examples
+---
 
-- [Next.js Subscription Payments Starter](https://github.com/vercel/nextjs-subscription-payments)
-- [Cookie-based Auth and the Next.js 13 App Router (free course)](https://youtube.com/playlist?list=PL5S4mPUpp4OtMhpnp93EFSo42iQ40XjbF)
-- [Supabase Auth and the Next.js App Router](https://github.com/supabase/supabase/tree/master/examples/auth/nextjs)
+## 📄 Licencia
+
+Este proyecto es propiedad de **Kuntur Express**. Uso comercial prohibido sin autorización.
+
+---
+
+**Versión:** 1.0.0
+**Última Actualización:** Noviembre 2025
+**Mantenido por:** Kuntur Express Team
+
+---
+
+## 📚 Documentación Adicional
+
+- [Documentación Supabase](https://supabase.com/docs)
+- [Documentación Resend](https://resend.com/docs)
+- [Documentación Next.js](https://nextjs.org/docs)
+- [Documentación Tailwind](https://tailwindcss.com/docs)
+- [Documentación shadcn/ui](https://ui.shadcn.com/)
