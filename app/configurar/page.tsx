@@ -297,8 +297,8 @@ export default function ConfigurarPage() {
       });
 
       const data = await response.json();
-      if (data.order_id) {
-        window.location.href = `/orden/${data.order_id}`;
+      if (data.success && data.data?.order_id) {
+        window.location.href = `/orden/${data.data.order_id}`;
       } else {
         alert('Error al procesar el pedido. Por favor intentá de nuevo.');
       }
