@@ -36,6 +36,8 @@ export default function OrderPage() {
   const [order, setOrder] = useState<OrderData | null>(null);
   const [loading, setLoading] = useState(true);
   const [paymentMethod, setPaymentMethod] = useState<'transfer' | 'usdt'>('transfer');
+  const [uploading, setUploading] = useState(false);
+  const [comprobanteFile, setComprobanteFile] = useState<File | null>(null);
 
   useEffect(() => {
     if (orderId) {
@@ -57,6 +59,69 @@ export default function OrderPage() {
       console.error('Error fetching order:', error);
     } finally {
       setLoading(false);
+    }
+  };
+
+  const uploadComprobante = async (file: File) => {
+    if (!order) return;
+
+    setUploading(true);
+    try {
+      // Crear FormData para el upload
+      const formData = new FormData();
+      formData.append('file', file);
+      formData.append('orderId', order.id);
+      formData.append('paymentMethod', paymentMethod);
+
+      // Subir a Supabase Storage via API endpoint
+      const response = await fetch('/api/upload/comprobante', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        // Actualizar estado de la orden
+        setOrder(prev => prev ? { ...prev, payment_status: 'paid' } : null);
+        alert('✅ Comprobante subido exitosamente. Recibirás confirmación por email.');
+      } else {
+        alert(`❌ Error al subir comprobante: ${data.error}`);
+      }
+    } catch (error) {
+      console.error('Error subiendo comprobante:', error);
+      alert('❌ Error de conexión. Intenta nuevamente.');
+    } finally {
+      setUploading(false);
+    }
+  };
+
+  const handleFileSelect = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Validar tipo de archivo
+      const allowedTypes = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
+      if (!allowedTypes.includes(file.type)) {
+        alert('❌ Formato no válido. Solo se permiten imágenes (JPG, PNG, WEBP) y PDF.');
+        return;
+      }
+
+      // Validar tamaño (máximo 5MB)
+      const maxSize = 5 * 1024 * 1024; // 5MB
+      if (file.size > maxSize) {
+        alert('❌ El archivo es muy grande. Máximo permitido: 5MB.');
+        return;
+      }
+
+      setComprobanteFile(file);
+    }
+  };
+
+  const handleUpload = () => {
+    if (comprobanteFile) {
+      uploadComprobante(comprobanteFile);
+    } else {
+      alert('❌ Por favor, selecciona un archivo primero.');
     }
   };
 
@@ -265,16 +330,81 @@ export default function OrderPage() {
 
                 {/* Botón de Subir Comprobante */}
                 <div className="border-t border-kuntur-gray/20 pt-6">
+                  {/* Input para seleccionar archivo */}
+                  <div className="mb-4">
+                    <input
+                      type="file"
+                      id="comprobante-file"
+                      accept="image/*,application/pdf"
+                      onChange={handleFileSelect}
+                      className="hidden"
+                      disabled={order.payment_status === 'paid' || uploading}
+                    />
+                    <label
+                      htmlFor="comprobante-file"
+                      className={`block w-full p-4 border-2 border-dashed rounded-lg text-center cursor-pointer transition-all ${
+                        order.payment_status === 'paid'
+                          ? 'border-gray-200 bg-gray-50 cursor-not-allowed'
+                          : comprobanteFile
+                          ? 'border-kuntur-blue bg-kuntur-blue/10'
+                          : 'border-kuntur-gray/30 hover:border-kuntur-blue/50 hover:bg-kuntur-cream/50'
+                      }`}
+                    >
+                      {comprobanteFile ? (
+                        <div>
+                          <p className="font-medium text-kuntur-dark mb-1">
+                            📄 {comprobanteFile.name}
+                          </p>
+                          <p className="text-sm text-kuntur-gray">
+                            {(comprobanteFile.size / 1024 / 1024).toFixed(2)} MB
+                          </p>
+                        </div>
+                      ) : (
+                        <div>
+                          <p className="font-medium text-kuntur-dark mb-1">
+                            📎 Click para seleccionar comprobante
+                          </p>
+                          <p className="text-sm text-kuntur-gray">
+                            JPG, PNG, WEBP o PDF (máx. 5MB)
+                          </p>
+                        </div>
+                      )}
+                    </label>
+                  </div>
+
+                  {/* Botón de upload */}
                   <Button
+                    onClick={handleUpload}
                     className="w-full bg-kuntur-blue hover:bg-kuntur-blue/90 text-white"
-                    disabled={order.payment_status === 'paid'}
+                    disabled={order.payment_status === 'paid' || uploading || !comprobanteFile}
                   >
-                    {order.payment_status === 'paid' ? 'Pagado' : 'Subir Comprobante'}
+                    {uploading ? (
+                      <div className="flex items-center justify-center gap-2">
+                        <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white"></div>
+                        <span>Subiendo...</span>
+                      </div>
+                    ) : order.payment_status === 'paid' ? (
+                      'Pagado'
+                    ) : !comprobanteFile ? (
+                      'Selecciona un archivo primero'
+                    ) : (
+                      'Subir Comprobante'
+                    )}
                   </Button>
+
                   {order.payment_status === 'paid' && (
                     <p className="text-center text-sm text-green-600 mt-2">
                       ✅ Esta orden ya ha sido pagada
                     </p>
+                  )}
+
+                  {comprobanteFile && order.payment_status !== 'paid' && (
+                    <button
+                      onClick={() => setComprobanteFile(null)}
+                      className="w-full mt-2 text-sm text-kuntur-gray hover:text-kuntur-dark transition-colors"
+                    >
+                      Cancelar selección
+                    </button>
                   )}
                 </div>
 
