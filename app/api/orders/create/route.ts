@@ -270,14 +270,9 @@ export async function POST(request: NextRequest): Promise<NextResponse<CreateOrd
 
     // 7. Generar número de orden
     console.log('🔢 Generando número de orden...');
-    const { data: orderNumberResult, error: orderNumberError } = await supabaseClient
-      .rpc('generate_order_number');
-
-    if (orderNumberError) {
-      handleSupabaseError(orderNumberError);
-    }
-
-    const orderNumber = orderNumberResult;
+    const timestamp = Date.now();
+    const randomNum = Math.floor(Math.random() * 10000);
+    const orderNumber = `KE-${timestamp}-${randomNum}`;
     console.log('📋 Número de orden generado:', orderNumber);
 
     // 8. Insertar orden en la base de datos
