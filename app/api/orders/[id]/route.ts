@@ -88,7 +88,8 @@ export async function GET(
     // 3. Obtener interacciones de la orden
     console.log('📝 Obteniendo interacciones de la orden...');
     
-    const { data: interactions, error: interactionsError } = await supabaseClient
+    let interactions;
+    const { data: interactionsData, error: interactionsError } = await supabaseClient
       .from('order_interactions')
       .select('*')
       .eq('order_id', orderId)
@@ -98,6 +99,8 @@ export async function GET(
       console.log('⚠️ Error obteniendo interacciones:', interactionsError);
       // No fallamos el request si hay error en las interacciones
       interactions = [];
+    } else {
+      interactions = interactionsData;
     }
 
     // 4. Estructurar respuesta
