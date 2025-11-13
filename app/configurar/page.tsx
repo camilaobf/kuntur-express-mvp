@@ -5,6 +5,8 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 // Datos de los roles Kuntur (extraídos de BRAND-KIT.md)
 const rolesData = [
@@ -197,6 +199,87 @@ export default function ConfigurarPage() {
     }
 
     return 'Plan no compatible con los roles seleccionados';
+  };
+
+  // Función para calcular precios
+  const calcularPrecios = () => {
+    const roleCount = selectedRoles.length;
+
+    // Calcular precio de roles
+    let precioUnitarioRol = 120;
+    if (roleCount >= 2 && roleCount <= 3) precioUnitarioRol = 110;
+    else if (roleCount >= 4 && roleCount <= 5) precioUnitarioRol = 95;
+    else if (roleCount === 6) precioUnitarioRol = 85;
+
+    const subtotalRoles = roleCount * precioUnitarioRol;
+
+    // Calcular descuento por volumen
+    let descuentoRoles = 0;
+    if (roleCount >= 2 && roleCount <= 3) descuentoRoles = 0.083;
+    else if (roleCount >= 4 && roleCount <= 5) descuentoRoles = 0.208;
+    else if (roleCount === 6) descuentoRoles = 0.292;
+
+    // Calcular precio de hosting
+    let subtotalHosting = 0;
+    let descuentoHosting = 0;
+    if (selectedHosting) {
+      const plan = hostingPlans.find(p => p.id === selectedHosting);
+      if (plan) {
+        subtotalHosting = isAnnual ? plan.annualPrice : plan.monthlyPrice;
+        descuentoHosting = isAnnual ? plan.annualDiscount / 100 : 0;
+      }
+    }
+
+    // Calcular descuento HOY5 (simplificado: asumimos que es válido)
+    const hoyEsValido = new Date().getHours() < 24; // Simplificado
+    const descuentoHOY5 = hoyEsValido ? 0.05 : 0;
+
+    // Calcular total con descuentos
+    const subtotal = subtotalRoles + subtotalHosting;
+    let descuentoTotal = descuentoRoles + descuentoHosting + descuentoHOY5;
+    descuentoTotal = Math.min(descuentoTotal, 0.40); // Máximo 40%
+
+    const totalUSDT = subtotal * (1 - descuentoTotal);
+
+    return {
+      subtotalRoles,
+      subtotalHosting,
+      subtotal,
+      descuentoRoles: subtotalRoles * descuentoRoles,
+      descuentoHosting: subtotalHosting * descuentoHosting,
+      descuentoHOY5: subtotal * descuentoHOY5,
+      descuentoTotal: subtotal * descuentoTotal,
+      totalUSDT: parseFloat(totalUSDT.toFixed(2)),
+      ahorro: parseFloat((subtotal - totalUSDT).toFixed(2))
+    };
+  };
+
+  // Función para manejar cambios en el formulario
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  // Función para validar formulario
+  const isFormValid = () => {
+    return formData.nombre.trim() !== '' &&
+           formData.email.trim() !== '' &&
+           formData.telefono.trim() !== '' &&
+           formData.negocio.trim() !== '';
+  };
+
+  // Función para confirmar pedido
+  const confirmarPedido = () => {
+    if (!isFormValid()) {
+      alert('Por favor completá todos los campos del formulario');
+      return;
+    }
+
+    // Aquí iría la lógica para procesar el pedido
+    alert('¡Pedido confirmado! Redirigiendo al checkout...');
   };
 
   return (
@@ -559,10 +642,222 @@ export default function ConfigurarPage() {
               )}
 
               {currentStep === 3 && (
-                <div className="text-center py-12">
-                  <div className="text-6xl mb-4">📝</div>
-                  <h3 className="text-xl font-semibold text-kuntur-dark mb-2">Paso 3</h3>
-                  <p className="text-kuntur-gray">Aquí completarás tus datos y verás el resumen.</p>
+                <div className="grid md:grid-cols-2 gap-6">
+                  {/* Columna Izquierda: Formulario */}
+                  <div>
+                    <CardHeader>
+                      <CardTitle className="text-xl text-kuntur-dark">Tus Datos</CardTitle>
+                      <p className="text-kuntur-gray">Completá tus datos para contactarte</p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="nombre" className="text-kuntur-dark font-medium">
+                          Nombre y Apellido *
+                        </Label>
+                        <Input
+                          id="nombre"
+                          name="nombre"
+                          type="text"
+                          placeholder="Juan Pérez"
+                          value={formData.nombre}
+                          onChange={handleInputChange}
+                          className="border-kuntur-gray/30 focus:border-kuntur-blue"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="text-kuntur-dark font-medium">
+                          Email *
+                        </Label>
+                        <Input
+                          id="email"
+                          name="email"
+                          type="email"
+                          placeholder="juan@ejemplo.com"
+                          value={formData.email}
+                          onChange={handleInputChange}
+                          className="border-kuntur-gray/30 focus:border-kuntur-blue"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="telefono" className="text-kuntur-dark font-medium">
+                          Teléfono / WhatsApp *
+                        </Label>
+                        <Input
+                          id="telefono"
+                          name="telefono"
+                          type="tel"
+                          placeholder="+591 123 45678"
+                          value={formData.telefono}
+                          onChange={handleInputChange}
+                          className="border-kuntur-gray/30 focus:border-kuntur-blue"
+                          required
+                        />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="negocio" className="text-kuntur-dark font-medium">
+                          Nombre del Negocio *
+                        </Label>
+                        <Input
+                          id="negocio"
+                          name="negocio"
+                          type="text"
+                          placeholder="Mi Empresa SRL"
+                          value={formData.negocio}
+                          onChange={handleInputChange}
+                          className="border-kuntur-gray/30 focus:border-kuntur-blue"
+                          required
+                        />
+                      </div>
+
+                      <Button
+                        onClick={confirmarPedido}
+                        disabled={!isFormValid()}
+                        className="w-full bg-kuntur-blue hover:bg-kuntur-blue/90 text-white disabled:opacity-50 disabled:cursor-not-allowed mt-6"
+                      >
+                        Confirmar Pedido
+                      </Button>
+                    </CardContent>
+                  </div>
+
+                  {/* Columna Derecha: Resumen (sticky) */}
+                  <div className="md:sticky md:top-6 h-fit">
+                    <CardHeader>
+                      <CardTitle className="text-xl text-kuntur-dark">Resumen del Pedido</CardTitle>
+                      <p className="text-kuntur-gray">Revisá tu selección antes de confirmar</p>
+                    </CardHeader>
+                    <CardContent className="space-y-4">
+                      {/* Roles Seleccionados */}
+                      <div>
+                        <h4 className="font-semibold text-kuntur-dark mb-2">Roles Kuntur</h4>
+                        <div className="space-y-2">
+                          {selectedRoles.map(roleId => {
+                            const role = rolesData.find(r => r.id === roleId);
+                            return (
+                              <div key={roleId} className="flex justify-between items-center py-2 border-b border-kuntur-gray/20">
+                                <div>
+                                  <p className="font-medium text-kuntur-dark">{role?.name}</p>
+                                  <p className="text-sm text-kuntur-gray">{role?.tagline}</p>
+                                </div>
+                                <span className="text-kuntur-blue font-semibold">{role?.price}</span>
+                              </div>
+                            );
+                          })}
+                        </div>
+                      </div>
+
+                      {/* Hosting Seleccionado */}
+                      {selectedHosting && (
+                        <div>
+                          <h4 className="font-semibold text-kuntur-dark mb-2">Hosting Express</h4>
+                          <div className="flex justify-between items-center py-2 border-b border-kuntur-gray/20">
+                            <div>
+                              <p className="font-medium text-kuntur-dark">
+                                {hostingPlans.find(p => p.id === selectedHosting)?.name}
+                                {isAnnual ? ' (Anual)' : ' (Mensual)'}
+                              </p>
+                              <p className="text-sm text-kuntur-gray">
+                                {hostingPlans.find(p => p.id === selectedHosting)?.capacity}
+                              </p>
+                            </div>
+                            <span className="text-kuntur-blue font-semibold">
+                              ${isAnnual
+                                ? hostingPlans.find(p => p.id === selectedHosting)?.annualPrice
+                                : hostingPlans.find(p => p.id === selectedHosting)?.monthlyPrice} USDT
+                            </span>
+                          </div>
+                        </div>
+                      )}
+
+                      {/* Desglose de Precios */}
+                      <div className="border-t border-kuntur-gray/20 pt-4 space-y-2">
+                        {(() => {
+                          const precios = calcularPrecios();
+                          return (
+                            <>
+                              {precios.subtotalRoles > 0 && (
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-kuntur-gray">Subtotal Roles:</span>
+                                  <span className="text-kuntur-dark">${precios.subtotalRoles} USDT</span>
+                                </div>
+                              )}
+
+                              {precios.subtotalHosting > 0 && (
+                                <div className="flex justify-between text-sm">
+                                  <span className="text-kuntur-gray">Subtotal Hosting:</span>
+                                  <span className="text-kuntur-dark">${precios.subtotalHosting} USDT</span>
+                                </div>
+                              )}
+
+                              <div className="flex justify-between text-sm">
+                                <span className="text-kuntur-gray">Subtotal:</span>
+                                <span className="text-kuntur-dark">${precios.subtotal} USDT</span>
+                              </div>
+
+                              {(precios.descuentoRoles > 0 || precios.descuentoHosting > 0 || precios.descuentoHOY5 > 0) && (
+                                <>
+                                  {precios.descuentoRoles > 0 && (
+                                    <div className="flex justify-between text-sm text-green-600">
+                                      <span>Descuento volumen:</span>
+                                      <span>-${precios.descuentoRoles.toFixed(2)} USDT</span>
+                                    </div>
+                                  )}
+
+                                  {precios.descuentoHosting > 0 && (
+                                    <div className="flex justify-between text-sm text-green-600">
+                                      <span>Descuento anual:</span>
+                                      <span>-${precios.descuentoHosting.toFixed(2)} USDT</span>
+                                    </div>
+                                  )}
+
+                                  {precios.descuentoHOY5 > 0 && (
+                                    <div className="flex justify-between text-sm text-green-600">
+                                      <span>Código HOY5:</span>
+                                      <span>-${precios.descuentoHOY5.toFixed(2)} USDT</span>
+                                    </div>
+                                  )}
+                                </>
+                              )}
+
+                              {precios.ahorro > 0 && (
+                                <div className="flex justify-between text-sm font-semibold text-green-600">
+                                  <span>Total Ahorrado:</span>
+                                  <span>-${precios.ahorro} USDT</span>
+                                </div>
+                              )}
+                            </>
+                          );
+                        })()}
+                      </div>
+
+                      {/* Total */}
+                      <div className="border-t-2 border-kuntur-blue pt-4">
+                        <div className="flex justify-between items-center">
+                          <span className="text-lg font-bold text-kuntur-dark">Total a Pagar:</span>
+                          <span className="text-xl font-bold text-kuntur-blue">
+                            ${calcularPrecios().totalUSDT} USDT
+                          </span>
+                        </div>
+                        <p className="text-xs text-kuntur-gray mt-2">
+                          * Pagá con QR bancario (BOB) o USDT (TRC20)
+                        </p>
+                      </div>
+
+                      {/* Código HOY5 */}
+                      <div className="bg-kuntur-blue/10 border border-kuntur-blue/30 rounded-lg p-3">
+                        <p className="text-sm font-medium text-kuntur-blue">
+                          🎉 Código HOY5 aplicado: 5% adicional de descuento
+                        </p>
+                        <p className="text-xs text-kuntur-gray mt-1">
+                          Válido hasta las 23:59 de hoy (America/La_Paz)
+                        </p>
+                      </div>
+                    </CardContent>
+                  </div>
                 </div>
               )}
 
