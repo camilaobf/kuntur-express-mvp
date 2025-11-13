@@ -11,8 +11,14 @@ export default {
   theme: {
     extend: {
       colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
+        kuntur: {
+          cream: '#e4e2dd',
+          dark: '#1e1e1e',
+          blue: '#0b6380',
+          gray: '#83827f',
+        },
+        background: '#e4e2dd',
+        foreground: '#1e1e1e',
         card: {
           DEFAULT: "hsl(var(--card))",
           foreground: "hsl(var(--card-foreground))",
@@ -22,7 +28,7 @@ export default {
           foreground: "hsl(var(--popover-foreground))",
         },
         primary: {
-          DEFAULT: "hsl(var(--primary))",
+          DEFAULT: '#0b6380',
           foreground: "hsl(var(--primary-foreground))",
         },
         secondary: {
