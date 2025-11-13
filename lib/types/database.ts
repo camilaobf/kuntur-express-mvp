@@ -137,6 +137,14 @@ export interface OrderInteraction {
 }
 
 /**
+ * Orden con hosting e interacciones incluidas
+ */
+export interface OrderWithHosting extends Order {
+  hosting_plan: HostingPlan | null;
+  interactions: OrderInteraction[];
+}
+
+/**
  * Tasa de cambio USDT/BOB
  */
 export interface ExchangeRate {

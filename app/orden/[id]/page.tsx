@@ -278,7 +278,7 @@ export default function OrderPage() {
                       <Checkbox
                         checked={paymentMethod === 'transfer'}
                         className="mt-1"
-                        readOnly
+                        disabled
                       />
                       <div className="flex-1">
                         <h4 className="font-semibold text-kuntur-dark">Transferencia Bancaria</h4>
@@ -309,7 +309,7 @@ export default function OrderPage() {
                       <Checkbox
                         checked={paymentMethod === 'usdt'}
                         className="mt-1"
-                        readOnly
+                        disabled
                       />
                       <div className="flex-1">
                         <h4 className="font-semibold text-kuntur-dark">USDT TRC20</h4>

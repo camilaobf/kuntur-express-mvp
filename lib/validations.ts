@@ -57,12 +57,12 @@ const nameSchema = z.string()
  * Validador de nombre de negocio/empresa
  */
 const businessNameSchema = z.string()
-  .optional()
   .max(200, {
     message: 'Máximo 200 caracteres'
   })
   .trim()
-  .transform(name => name?.replace(/\s+/g, ' ') || null);
+  .transform(name => name?.replace(/\s+/g, ' ') || null)
+  .optional();
 
 // ============================================
 // SCHEMAS DE ROLES
@@ -113,16 +113,16 @@ const hostingIsAnnualSchema = z.boolean()
  * Código de descuento (opcional)
  */
 const discountCodeSchema = z.string()
-  .optional()
   .max(20, 'Código demasiado largo')
   .toUpperCase()
   .trim()
-  .transform(code => code || null);
+  .transform(code => code || null)
+  .optional();
 
 /**
  * UTM parameters (opcional)
  */
-const utmParamsSchema = z.record(z.any())
+const utmParamsSchema = z.record(z.string(), z.any())
   .optional()
   .nullable();
 
@@ -268,11 +268,11 @@ export const hoy5DiscountSchema = z.object({
 })
 .refine((data) => {
   const fecha = new Date(data.fecha_actual);
-  const manana = new Date(fecha);
-  maniana.setDate(fecha.getDate() + 1);
-  maniana.setHours(0, 0, 0, 0);
-  
-  return new Date() < maniana;
+  const tomorrow = new Date(fecha);
+  tomorrow.setDate(fecha.getDate() + 1);
+  tomorrow.setHours(0, 0, 0, 0);
+
+  return new Date() < tomorrow;
 }, {
   message: 'El código HOY5 ha expirado',
   path: ['code']

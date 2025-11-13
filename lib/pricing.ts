@@ -249,7 +249,7 @@ export function resumirOrden(
         subtotal: pricing.subtotal,
         total_usdt: pricing.total_usdt,
         total_bob: convertirUSDTaBOB(pricing.total_usdt, exchangeRate),
-        exchange_rate
+        exchangeRate
       }
     }
   };
