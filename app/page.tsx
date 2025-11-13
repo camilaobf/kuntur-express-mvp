@@ -1,5 +1,6 @@
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
 export default function Home() {
   return (
@@ -226,6 +227,186 @@ export default function Home() {
           </div>
         </div>
       </div>
+
+      {/* Hosting Plans Section */}
+      <div className="bg-kuntur-cream py-20">
+        <div className="max-w-7xl mx-auto px-4">
+          <div className="text-center mb-16">
+            <h2 className="text-3xl md:text-4xl font-bold text-kuntur-dark mb-4">
+              Hosting Express
+            </h2>
+            <p className="text-xl text-kuntur-gray">
+              Servidor dedicado para que tus Roles Kuntur funcionen 24/7
+            </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Starter Plan */}
+            <Card className="hover:shadow-lg transition-shadow border-kuntur-gray/20">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-kuntur-dark">Starter</CardTitle>
+                <div className="mt-4">
+                  <p className="text-3xl font-bold text-kuntur-blue">20 USDT</p>
+                  <p className="text-kuntur-gray">/mes</p>
+                  <p className="text-sm text-kuntur-gray mt-2">
+                    o <span className="font-semibold">192 USDT/año</span> (ahorrás 20%)
+                  </p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center mb-6">
+                  <p className="text-kuntur-gray font-medium">
+                    1 rol, hasta 1,200 conversaciones/mes
+                  </p>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Servidor dedicado</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Créditos de IA incluidos</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Integración WhatsApp/Email</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Soporte por email</span>
+                  </div>
+                </div>
+
+                <div className="text-center pt-4 border-t border-kuntur-gray/20">
+                  <p className="text-sm text-kuntur-gray">
+                    <span className="font-semibold">Ideal para:</span> Emprendedores iniciando
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Crecimiento Plan - MÁS ELEGIDO */}
+            <Card className="hover:shadow-lg transition-shadow border-kuntur-blue/50 bg-white relative scale-105">
+              <div className="absolute -top-4 left-1/2 transform -translate-x-1/2">
+                <Badge className="bg-kuntur-blue text-white px-4 py-1 text-sm font-semibold">
+                  ⭐ MÁS ELEGIDO
+                </Badge>
+              </div>
+              <CardHeader className="text-center pt-8">
+                <CardTitle className="text-2xl text-kuntur-dark">Crecimiento</CardTitle>
+                <div className="mt-4">
+                  <p className="text-3xl font-bold text-kuntur-blue">60 USDT</p>
+                  <p className="text-kuntur-gray">/mes</p>
+                  <p className="text-sm text-kuntur-gray mt-2">
+                    o <span className="font-semibold">540 USDT/año</span> (ahorrás 25%)
+                  </p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center mb-6">
+                  <p className="text-kuntur-gray font-medium">
+                    2-3 roles, hasta 3,000 conversaciones/mes
+                  </p>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Todo de Starter +</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Más créditos de IA</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Soporte prioritario</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Monitoreo avanzado</span>
+                  </div>
+                </div>
+
+                <div className="text-center pt-4 border-t border-kuntur-gray/20">
+                  <p className="text-sm text-kuntur-gray">
+                    <span className="font-semibold">Ideal para:</span> Negocios en expansión
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+
+            {/* Premium Plan */}
+            <Card className="hover:shadow-lg transition-shadow border-kuntur-gray/20">
+              <CardHeader className="text-center">
+                <CardTitle className="text-2xl text-kuntur-dark">Premium</CardTitle>
+                <div className="mt-4">
+                  <p className="text-3xl font-bold text-kuntur-blue">150 USDT</p>
+                  <p className="text-kuntur-gray">/mes</p>
+                  <p className="text-sm text-kuntur-gray mt-2">
+                    o <span className="font-semibold">1,260 USDT/año</span> (ahorrás 30%)
+                  </p>
+                </div>
+              </CardHeader>
+              <CardContent>
+                <div className="text-center mb-6">
+                  <p className="text-kuntur-gray font-medium">
+                    4-6 roles, hasta 10,000 conversaciones/mes
+                  </p>
+                </div>
+
+                <div className="space-y-3 mb-6">
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Todo de Crecimiento +</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Créditos ilimitados de IA</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Soporte VIP 24/7</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-green-600">✓</span>
+                    <span className="text-kuntur-gray">Consultoría mensual</span>
+                  </div>
+                </div>
+
+                <div className="text-center pt-4 border-t border-kuntur-gray/20">
+                  <p className="text-sm text-kuntur-gray">
+                    <span className="font-semibold">Ideal para:</span> Operaciones a gran escala
+                  </p>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </div>
+
+      {/* Simple Footer */}
+      <footer className="bg-kuntur-dark text-kuntur-cream py-12">
+        <div className="max-w-7xl mx-auto px-4 text-center">
+          <div className="mb-4">
+            <img src="/logo-full-claro.png" alt="Kuntur Express" className="h-8 mx-auto mb-4" />
+          </div>
+          <p className="text-sm text-kuntur-gray mb-4">
+            © 2025 Kuntur Express. Todos los derechos reservados.
+          </p>
+          <div className="flex justify-center gap-6 text-sm">
+            <span className="hover:text-kuntur-blue cursor-pointer transition-colors">
+              WhatsApp: +59164036038
+            </span>
+            <span className="text-kuntur-gray">|</span>
+            <span className="hover:text-kuntur-blue cursor-pointer transition-colors">
+              hola@kunturexpress.com
+            </span>
+          </div>
+        </div>
+      </footer>
     </main>
   );
 }
