@@ -117,6 +117,7 @@ export default function ConfigurarPage() {
   const [selectedRoles, setSelectedRoles] = useState<string[]>([]);
   const [selectedHosting, setSelectedHosting] = useState<any>(null);
   const [isAnnual, setIsAnnual] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     nombre: '',
     email: '',
@@ -271,15 +272,42 @@ export default function ConfigurarPage() {
            formData.negocio.trim() !== '';
   };
 
-  // Función para confirmar pedido
-  const confirmarPedido = () => {
+  // Función para manejar el envío del formulario
+  const handleSubmit = async () => {
     if (!isFormValid()) {
       alert('Por favor completá todos los campos del formulario');
       return;
     }
 
-    // Aquí iría la lógica para procesar el pedido
-    alert('¡Pedido confirmado! Redirigiendo al checkout...');
+    setIsSubmitting(true);
+
+    try {
+      const response = await fetch('/api/orders/create', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          client_name: formData.nombre,
+          client_email: formData.email,
+          client_phone: formData.telefono,
+          client_business: formData.negocio,
+          roles_selected: selectedRoles,
+          hosting_plan_id: selectedHosting?.id,
+          hosting_is_annual: isAnnual
+        })
+      });
+
+      const data = await response.json();
+      if (data.order_id) {
+        window.location.href = `/orden/${data.order_id}`;
+      } else {
+        alert('Error al procesar el pedido. Por favor intentá de nuevo.');
+      }
+    } catch (error) {
+      console.error('Error submitting order:', error);
+      alert('Error al procesar el pedido. Por favor intentá de nuevo.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -715,11 +743,18 @@ export default function ConfigurarPage() {
                       </div>
 
                       <Button
-                        onClick={confirmarPedido}
-                        disabled={!isFormValid()}
+                        onClick={handleSubmit}
+                        disabled={!isFormValid() || isSubmitting}
                         className="w-full bg-kuntur-blue hover:bg-kuntur-blue/90 text-white disabled:opacity-50 disabled:cursor-not-allowed mt-6"
                       >
-                        Confirmar Pedido
+                        {isSubmitting ? (
+                          <>
+                            <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
+                            Procesando...
+                          </>
+                        ) : (
+                          'Confirmar Pedido'
+                        )}
                       </Button>
                     </CardContent>
                   </div>
