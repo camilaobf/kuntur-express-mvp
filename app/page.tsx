@@ -30,7 +30,7 @@ export default function Home() {
                 Hosting
               </a>
               <a
-                href="mailto:hola@kunturexpress.com"
+                href="https://calendar.app.google/c8X1Rhn3f6dFgzzBA"
                 className="text-kuntur-gray hover:text-kuntur-blue transition-colors font-medium"
               >
                 Contacto
@@ -79,8 +79,10 @@ export default function Home() {
             <Button size="lg" className="bg-kuntur-blue hover:bg-kuntur-blue/90 text-white px-8 py-6 text-lg">
               Configurar mis Roles Kuntur
             </Button>
-            <Button variant="outline" size="lg" className="border-kuntur-blue text-kuntur-blue hover:bg-kuntur-blue hover:text-white px-8 py-6 text-lg">
-              Ver Demo
+            <Button variant="outline" size="lg" className="border-kuntur-blue text-kuntur-blue hover:bg-kuntur-blue hover:text-white px-8 py-6 text-lg" asChild>
+              <a href="https://calendar.app.google/c8X1Rhn3f6dFgzzBA">
+                Agendar Consulta Gratuita
+              </a>
             </Button>
           </div>
         </div>
